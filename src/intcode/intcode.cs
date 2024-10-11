@@ -1,32 +1,53 @@
 ﻿namespace aoc2019.intcode
 {
-    internal class Intcode
+    public class Intcode
     {
-        public static int Compute(int[] input, int noun, int verb)
+        public int[] memory = [];
+        int pointer = 0;
+        public Intcode(int[] program)
         {
-            int[] memory = [.. input];
-            int pointer = 0;
-            int opcode = memory[pointer];
+            this.memory = [.. program];
+        }
+        public void NounVerb(int noun, int verb)
+        {
             memory[1] = noun;
             memory[2] = verb;
+        }
+        public void Compute()
+        {
+            int opcode = memory[pointer];
             while (opcode != 99)
             {
-                int param1 = memory[pointer + 1];
-                int param2 = memory[pointer + 2];
-                int param3 = memory[pointer + 3];
                 switch (opcode)
                 {
                     case 1:
-                        memory[param3] = memory[param1] + memory[param2];
-                        break;
+                        Opcode1(); break;
                     case 2:
-                        memory[param3] = memory[param1] * memory[param2];
-                        break;
+                        Opcode2(); break;
                 }
-                pointer += 4;
                 opcode = memory[pointer];
             }
-            return memory[0];
+        }
+        void Opcode1()
+        {
+            var parameters = GetParameters(3);
+            memory[parameters[2]] = memory[parameters[0]] + memory[parameters[1]];
+            pointer += 4;
+        }
+        void Opcode2()
+        {
+            var parameters = GetParameters(3);
+            memory[parameters[2]] = memory[parameters[0]] * memory[parameters[1]];
+            pointer += 4;
+        }
+        List<int> GetParameters(int parametercount)
+        {
+            List<int> parameters = [];
+            for (int i = 1; i <= parametercount; i++)
+            {
+                parameters.Add(memory[pointer + i]);
+            }
+            return parameters;
         }
     }
 }
