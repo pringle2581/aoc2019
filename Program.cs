@@ -2,6 +2,7 @@
 using aoc2019.day2;
 using aoc2019.day3;
 using aoc2019.day4;
+using aoc2019.day5;
 
 string input = "../../../input/";
 
@@ -23,4 +24,9 @@ Console.WriteLine("");
 int[] day4 = Day4.Solve(File.ReadAllLines(input + 4));
 Console.WriteLine($"Day 4 Part 1: {day4[0]}");
 Console.WriteLine($"Day 4 Part 2: {day4[1]}");
+Console.WriteLine("");
+
+int[] day5 = Day5.Solve(File.ReadAllLines(input + 5));
+Console.WriteLine($"Day 5 Part 1: {day5[0]}");
+Console.WriteLine($"Day 5 Part 2: {day5[1]}");
 Console.WriteLine("");
