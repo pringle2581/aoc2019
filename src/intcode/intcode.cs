@@ -8,7 +8,7 @@
         int opcode = 0;
         int[] pmode = [0, 0, 0];
         int[] p = [0, 0, 0];
-        int input = 0;
+        Queue<int> input = [];
         List<int> output = [];
 
 
@@ -27,7 +27,7 @@
         }
         public void Input(int input)
         {
-            this.input = input;
+            this.input.Enqueue(input);
         }
         public List<int> Output()
         {
@@ -85,7 +85,7 @@
                     break;
                 case 3:
                     GetParameters(1,1);
-                    memory[p[0]] = input;
+                    memory[p[0]] = input.Dequeue();
                     break;
                 case 4:
                     GetParameters(1,1);
