@@ -3,6 +3,8 @@
     public class Intcode
     {
         bool halt = false;
+        bool pause = false;
+        bool exit = false;
         int[] memory = [];
         int pointer = 0;
         int opcode = 0;
@@ -33,14 +35,30 @@
         {
             return output;
         }
+        public bool CheckExit()
+        {
+            return exit;
+        }
         public void Compute()
         {
-            opcode = memory[pointer];
-            ParseInstructions();
+            halt = false;
+            Run();
+        }
+        public void Run()
+        {
             if (!halt)
             {
-                Opcode(opcode);
-                Compute();
+                if (pause)
+                {
+                    pause = false;
+                    Run();
+                }
+                else
+                {
+                    ParseInstructions();
+                    Opcode(opcode);
+                    Run();
+                }
             }
         }
         void ParseInstructions()
@@ -51,11 +69,10 @@
             pmode[0] = instruction / 100 % 10;
             pmode[1] = instruction / 1000 % 10;
             pmode[2] = instruction / 10000 % 10;
-            pointer++;
         }
         void GetParameters(int parametercount)
         {
-
+            pointer++;
             for (int i = 0; i < parametercount; i++)
             {
                 p[i] = memory[pointer];
@@ -84,9 +101,18 @@
                     memory[p[2]] = p[0] * p[1];
                     break;
                 case 3:
-                    GetParameters(1,1);
-                    memory[p[0]] = input.Dequeue();
-                    break;
+                    if (input.Count == 0)
+                    {
+                        halt = true;
+                        pause = true;
+                        break;
+                    }
+                    else
+                    {
+                        GetParameters(1, 1);
+                        memory[p[0]] = input.Dequeue();
+                        break;
+                    }
                 case 4:
                     GetParameters(1,1);
                     output.Add(memory[p[0]]);
@@ -128,6 +154,7 @@
                     break;
                 case 99:
                     halt = true;
+                    exit = true;
                     break;
                 default:
                     Console.WriteLine($"UNKNOWN OPCODE {op}");
