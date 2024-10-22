@@ -1,7 +1,7 @@
 ﻿namespace aoc2019.day1 {
     public class Day1
     {
-        static public int[] Solve(string[] input)
+        static public string[] Solve(string[] input)
         {
             int part1 = 0, part2 = 0;
             int[] modules = Array.ConvertAll(input, int.Parse);
@@ -15,7 +15,7 @@
                     fuel = Fuel(fuel);
                 }
             }
-            return [part1, part2];
+            return [part1.ToString(), part2.ToString()];
         }
         static int Fuel(int mass)
         {

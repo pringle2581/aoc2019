@@ -3,9 +3,9 @@ namespace aoc2019.day2
 {
     public class Day2
     {
-        public static int[] Solve(string[] input)
+        public static string[] Solve(string[] input)
         {
-            int[] program = Array.ConvertAll(input[0].Split(","), int.Parse);
+            long[] program = Array.ConvertAll(input[0].Split(","), long.Parse);
             Intcode part1comp = new(program);
             part1comp.NounVerb(12, 2);
             part1comp.Compute();
@@ -24,7 +24,7 @@ namespace aoc2019.day2
                     }
                 }
             }
-            return [part1, part2];
+            return [part1.ToString(), part2.ToString()];
         }
     }
 }

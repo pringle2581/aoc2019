@@ -2,7 +2,7 @@
 {
     public class Day4
     {
-        static public int[] Solve(string[] input)
+        static public string[] Solve(string[] input)
         {
             int[] range = Array.ConvertAll(input[0].Split("-"), int.Parse);
             int part1 = 0, part2 = 0;
@@ -12,7 +12,7 @@
                 part1 += result.Item1;
                 part2 += result.Item2;
             }
-            return [part1, part2];
+            return [part1.ToString(), part2.ToString()];
         }
         static (int,int) Test(string candidate)
         {

@@ -2,7 +2,7 @@
 {
     public class Day6
     {
-        static public int[] Solve(string[] input)
+        static public string[] Solve(string[] input)
         {
             Dictionary<string, string> orbits = [];
             foreach (string line in input)
@@ -21,7 +21,7 @@
             GetParents("SAN", sanparents);
             part2 += youparents.Except(sanparents).Count();
             part2 += sanparents.Except(youparents).Count();
-            return [part1, part2];
+            return [part1.ToString(), part2.ToString()];
 
             int CountOrbits(string node, int sum)
             {

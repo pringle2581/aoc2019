@@ -3,9 +3,9 @@ namespace aoc2019.day7
 {
     public class Day7
     {
-        static public int[] Solve(string[] input)
+        static public string[] Solve(string[] input)
         {
-            int[] program = Array.ConvertAll(input[0].Split(","), int.Parse);
+            long[] program = Array.ConvertAll(input[0].Split(","), long.Parse);
             int part1 = 0, part2 = 0;
             List<int[]> pt1sequences = [], pt2sequences = [];
             Heap([0, 1, 2, 3, 4], 5, pt1sequences);
@@ -19,7 +19,7 @@ namespace aoc2019.day7
                     computer.Input(amp);
                     computer.Input(signal);
                     computer.Compute();
-                    signal = computer.Output().Last();
+                    signal = Convert.ToInt32(computer.Output().Last());
                 }
                 if (signal > part1)
                 {
@@ -42,7 +42,7 @@ namespace aoc2019.day7
                     {
                         amp[i].Input(pt2input);
                         amp[i].Compute();
-                        pt2input = amp[i].Output().Last();
+                        pt2input = Convert.ToInt32(amp[i].Output().Last());
                     }
                     if (amp[4].CheckExit())
                     {
@@ -50,10 +50,10 @@ namespace aoc2019.day7
                     }
                 }
                 if (amp[4].Output().Last() > part2) {
-                    part2 = amp[4].Output().Last();
+                    part2 = Convert.ToInt32(amp[4].Output().Last());
                 }
             }
-            return [part1, part2];
+            return [part1.ToString(), part2.ToString()];
 
             static void Heap(int[] array, int num, List<int[]> list)
             {

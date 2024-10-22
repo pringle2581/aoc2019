@@ -3,18 +3,18 @@ namespace aoc2019.day5
 {
     public class Day5
     {
-        static public int[] Solve(string[] input)
+        static public string[] Solve(string[] input)
         {
-            int[] program = Array.ConvertAll(input[0].Split(","), int.Parse);
+            long[] program = Array.ConvertAll(input[0].Split(","), long.Parse);
             Intcode part1computer = new(program);
             part1computer.Input(1);
             part1computer.Compute();
-            int part1 = part1computer.Output().Last();
+            long part1 = part1computer.Output().Last();
             Intcode part2computer = new(program);
             part2computer.Input(5);
             part2computer.Compute();
-            int part2 = part2computer.Output().Last();
-            return [part1, part2];
+            long part2 = part2computer.Output().Last();
+            return [part1.ToString(), part2.ToString()];
         }
     }
 }

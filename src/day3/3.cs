@@ -3,7 +3,7 @@ namespace aoc2019.day3
 {
     public class Day3
     {
-        public static int[] Solve(string[] input)
+        public static string[] Solve(string[] input)
         {
             List<int> part1 = [], part2 = [];
             var wire1 = FindPath(input[0].Split(","));
@@ -14,7 +14,7 @@ namespace aoc2019.day3
                 part1.Add(result.Item1 + result.Item2);
                 part2.Add(wire1.IndexOf(result) + wire2.IndexOf(result) + 2);
             }
-            return [part1.Min(), part2.Min()];
+            return [part1.Min().ToString(), part2.Min().ToString()];
         }
         static List<(int, int)> FindPath(string[] instructions)
         {
