@@ -9,6 +9,7 @@ using aoc2019.day8;
 using aoc2019.day9;
 using aoc2019.day10;
 using aoc2019.day11;
+using aoc2019.day12;
 
 string input = "../../../input/";
 
@@ -29,3 +30,4 @@ PrintResults(8, Day8.Solve(File.ReadAllLines(input + 8)));
 PrintResults(9, Day9.Solve(File.ReadAllLines(input + 9)));
 PrintResults(10, Day10.Solve(File.ReadAllLines(input + 10)));
 PrintResults(11, Day11.Solve(File.ReadAllLines(input + 11)));
+PrintResults(12, Day12.Solve(File.ReadAllLines(input + 12)));
