@@ -5,10 +5,12 @@
         bool halt = false;
         bool exit = false;
         long[] memory = new long[10000];
+        long[] init;
         long pointer = 0;
         long rel = 0;
         Queue<int> input = [];
         List<long> output = [];
+
         public Intcode(long[] program)
         {
             Array.Fill(memory, 0);
@@ -16,33 +18,56 @@
             {
                 memory[i] = program[i];
             }
+            init = [.. memory];
         }
-        public void NounVerb(int noun, int verb)
+
+        public void Reset()
         {
-            memory[1] = noun;
-            memory[2] = verb;
+            halt = false;
+            exit = false;
+            memory = [.. init];
+            pointer = 0;
+            rel = 0;
+            input = [];
+            output = [];
         }
+
+        public void WriteMem(int location, int value)
+        {
+            memory[location] = value;
+        }
+
         public int CheckMem(int location)
         {
             return Convert.ToInt32(memory[location]);
         }
+
         public void Input(int input)
         {
             this.input.Enqueue(input);
         }
+
         public List<long> Output()
         {
             return output;
         }
+
+        public void ClearOutput()
+        {
+            output = [];
+        }
+
         public bool CheckExit()
         {
             return exit;
         }
+
         public void Compute()
         {
             halt = false;
             Run();
         }
+
         public void Run()
         {
             while (!halt)
@@ -50,6 +75,7 @@
                 Opcode(ParseInstructions());
             }
         }
+
         (long, long[]) ParseInstructions()
         {
             long instruction = Step();
@@ -60,12 +86,14 @@
             pmode[2] = instruction / 10000 % 10;
             return (opcode, pmode);
         }
+
         long Step()
         {
             long value = memory[pointer];
             pointer++;
             return value;
         }
+
         long GetParam(long pmode)
         {
             long param = Step();
@@ -84,6 +112,7 @@
             }
             return value;
         }
+
         void WriteParam(long value, long pmode)
         {
             long param = Step();
@@ -96,6 +125,7 @@
                 memory[rel + param] = value;
             }
         }
+
         void Opcode((long, long[]) instructions)
         {
             long opcode = instructions.Item1;

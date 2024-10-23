@@ -7,7 +7,8 @@ namespace aoc2019.day2
         {
             long[] program = Array.ConvertAll(input[0].Split(","), long.Parse);
             Intcode part1comp = new(program);
-            part1comp.NounVerb(12, 2);
+            part1comp.WriteMem(1, 12);
+            part1comp.WriteMem(2, 2);
             part1comp.Compute();
             int part1 = part1comp.CheckMem(0);
             int part2 = 0;
@@ -16,7 +17,8 @@ namespace aoc2019.day2
                 foreach (int verb in Enumerable.Range(0, 100))
                 {
                     Intcode part2comp = new(program);
-                    part2comp.NounVerb(noun, verb);
+                    part2comp.WriteMem(1, noun);
+                    part2comp.WriteMem(2, verb);
                     part2comp.Compute();
                     if (part2comp.CheckMem(0) == 19690720)
                     {
