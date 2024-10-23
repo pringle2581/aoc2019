@@ -5,14 +5,22 @@ namespace aoc2019.day12
     {
         static public string[] Solve(string[] input)
         {
-            List<Moon> moons = [];
-            List<int[]> pairs = [[0, 1], [0, 2], [0, 3], [1, 2], [1, 3], [2, 3]];
-            ParseMoons(input);
-            StepTime(1000);
-            int part1 = GetTotalEnergy(moons);
-            return [part1.ToString(), ""];
+            MoonList pt1moons = new(input),pt2moons = new(input);
+            pt1moons.StepTime(1000);
+            int part1 = pt1moons.TotalEnergy();
+            long part2 = pt2moons.FindCycle();
+            return [part1.ToString(), part2.ToString()];
+        }
 
-            void ParseMoons(string[] input)
+        class MoonList : List<Moon>
+        {
+            readonly List<int[]> pairs = [[0, 1], [0, 2], [0, 3], [1, 2], [1, 3], [2, 3]];
+            public MoonList(string[] input)
+            {
+                this.ParseMoons(input);
+            }
+
+            public void ParseMoons(string[] input)
             {
                 foreach (string line in input)
                 {
@@ -22,35 +30,78 @@ namespace aoc2019.day12
                     {
                         pos[i] = int.Parse(matches[i].Value);
                     }
-                    moons.Add(Moon.New(pos));
+                    this.Add(Moon.New(pos));
                 }
             }
 
-            void StepTime(int steps)
+            public void StepTime(int steps)
             {
                 for (int step = 0; step < steps; step++)
                 {
                     foreach (int[] pair in pairs)
                     {
-                        Moon moon1 = moons[pair[0]], moon2 = moons[pair[1]];
+                        Moon moon1 = this[pair[0]], moon2 = this[pair[1]];
                         moon1.ApplyGravity(moon2);
                         moon2.ApplyGravity(moon1);
                     }
-                    foreach (Moon moon in moons)
+                    foreach (Moon moon in this)
                     {
                         moon.ApplyVelocity();
                     }
                 }
             }
 
-            int GetTotalEnergy(List<Moon> moons)
+            public int TotalEnergy()
             {
                 int energy = 0;
-                foreach (Moon moon in moons)
+                foreach (Moon moon in this)
                 {
                     energy += moon.GetEnergy();
                 }
                 return energy;
+            }
+
+            public int[] GetDimension(int dim)
+            {
+                int[] dimension = new int[this.Count * 2];
+                for (int i = 0; i < this.Count; i++)
+                {
+                    dimension[i * 2] = this[i].pos[dim];
+                    dimension[i * 2 + 1] = this[i].vel[dim];
+                }
+                return dimension;
+            }
+
+            public long FindCycle()
+            {
+                int[] cycles = new int[3];
+                for (int i = 0; i < 3; i++)
+                {
+                    int step = 1;
+                    int[] init = this.GetDimension(i);
+                    this.StepTime(1);
+                    while (!init.SequenceEqual(this.GetDimension(i)))
+                    {
+                        this.StepTime(1);
+                        step++;
+                    }
+                    cycles[i] = step;
+                }
+                return LCM(LCM(cycles[0], cycles[1]), cycles[2]);
+
+                static long GCD(long a, long b)
+                {
+                    if (a == 0)
+                    {
+                        return b;
+                    }
+                    return GCD(b % a, a);
+                }
+
+                static long LCM(long a, long b)
+                {
+                    return (a / GCD(a, b)) * b;
+                }
             }
         }
 
