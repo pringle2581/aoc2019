@@ -11,10 +11,11 @@ using aoc2019.day10;
 using aoc2019.day11;
 using aoc2019.day12;
 using aoc2019.day13;
+using aoc2019.day14;
 
 string input = "../../../input/";
 
-void PrintResults(int day, string[] results)
+static void PrintResults(int day, string[] results)
 {
     Console.WriteLine($"Day {day} Part 1: {results[0]}");
     Console.WriteLine($"Day {day} Part 2: {results[1]}\n");
@@ -33,3 +34,4 @@ PrintResults(10, Day10.Solve(File.ReadAllLines(input + 10)));
 PrintResults(11, Day11.Solve(File.ReadAllLines(input + 11)));
 PrintResults(12, Day12.Solve(File.ReadAllLines(input + 12)));
 PrintResults(13, Day13.Solve(File.ReadAllLines(input + 13)));
+PrintResults(14, Day14.Solve(File.ReadAllLines(input + 14)));
